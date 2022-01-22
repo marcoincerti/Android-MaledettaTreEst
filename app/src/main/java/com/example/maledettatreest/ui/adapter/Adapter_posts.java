@@ -1,5 +1,6 @@
 package com.example.maledettatreest.ui.adapter;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -25,17 +26,19 @@ public class Adapter_posts extends RecyclerView.Adapter<ViewHolderPosts>{
 
     private LayoutInflater mInflater;
     private Context context;
+    private Application application;
 
-    public Adapter_posts(BachecaPosts fragment, Context context) {
+    public Adapter_posts(BachecaPosts fragment, Context context, Application application) {
         this.mInflater = LayoutInflater.from(fragment);
         this.context = context;
+        this.application = application;
     }
 
     // viene richiamato quando si crea un nuovo oggetto di view (che rappresenta una cella)
     @Override
     public ViewHolderPosts onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.single_row_posts, parent, false);
-        return new ViewHolderPosts(view, context);
+        return new ViewHolderPosts(view, context, application);
     }
 
     // viene richiamato quando un oggetto di view (che rappresenta una cella) viene associato ai suoi dati (nota che un

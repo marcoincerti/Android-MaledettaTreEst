@@ -10,8 +10,6 @@ import com.example.maledettatreest.utils.Utils;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
@@ -98,7 +96,7 @@ public class BachecaPosts extends AppCompatActivity {
         binding.recyclerViewPost.setLayoutManager(new LinearLayoutManager(this));
 
         //creiamo l'adapter e lo associamo alla recyclerView
-        adapter = new Adapter_posts(this, this);
+        adapter = new Adapter_posts(this, this, getApplication());
     }
 
     private void getPosts() throws JSONException {

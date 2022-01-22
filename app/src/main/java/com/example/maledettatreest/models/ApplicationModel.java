@@ -1,6 +1,10 @@
 package com.example.maledettatreest.models;
 
+import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
+
+import androidx.room.Room;
 
 import com.example.maledettatreest.utils.Utils;
 import com.google.gson.Gson;
@@ -11,6 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 //IMPLEMENTO IL MODEL CON IL PATTERN SINGLETON
 public class ApplicationModel {
@@ -18,6 +23,7 @@ public class ApplicationModel {
 
     public static ArrayList<Line> lista_linee = new ArrayList<>();
     public static ArrayList<Post> lista_posts = new ArrayList<>();
+    public static HashMap<String, String> photo_map = new HashMap<>();
 
     public static synchronized ApplicationModel getInstance() {
         if (ourInstance == null)
@@ -28,13 +34,15 @@ public class ApplicationModel {
     private ApplicationModel() {
     }
 
-
     public ArrayList<Line> getLines() {
         return lista_linee;
     }
     public ArrayList<Post> getPost() {
         return lista_posts;
     }
+//    public HashMap<String, Photo>  getPhotos() {
+//        return photo_map;
+//    }
 
 
     //metodi per l'adapter
@@ -102,4 +110,17 @@ public class ApplicationModel {
             e.printStackTrace();
         }
     }
+
+    public String checkPhoto(String x) {
+        if(photo_map.containsKey(x)){
+            return photo_map.get(x);
+        }else {
+            return null;
+        }
+    }
+
+    public void insertPhotoinMap(String x, String base64Photo) {
+        photo_map.put(x, base64Photo);
+    }
+
 }

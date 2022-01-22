@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         openFragment(bacheca);
 
         bNavigation.setOnItemSelectedListener(item -> {
-
             int itemId = item.getItemId();
             if (itemId == R.id.stazioni) {
                 openFragment(bacheca);
@@ -39,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-
     }
 
+    //Function for switch between fragments
     private void openFragment(Fragment fragment) {
         Log.d("TabBar", "openFragment: ");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
