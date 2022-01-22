@@ -18,9 +18,7 @@ public class PhotoRepository {
     }
 
     void insertPhotoDB(Photo foto) {
-        AppRoomDatabase.databaseWriteExecutor.execute(() -> {
-            photoDao.insert(foto);
-        });
+        photoDao.insert(foto);
     }
 
     public Boolean checkPhotoDB(String uidPversion) {

@@ -24,6 +24,7 @@ public class ApplicationModel {
     public static ArrayList<Line> lista_linee = new ArrayList<>();
     public static ArrayList<Post> lista_posts = new ArrayList<>();
     public static HashMap<String, String> photo_map = new HashMap<>();
+    public static String uid = new String();
 
     public static synchronized ApplicationModel getInstance() {
         if (ourInstance == null)
@@ -39,6 +40,9 @@ public class ApplicationModel {
     }
     public ArrayList<Post> getPost() {
         return lista_posts;
+    }
+    public String getUid() {
+        return uid;
     }
 //    public HashMap<String, Photo>  getPhotos() {
 //        return photo_map;
@@ -62,7 +66,7 @@ public class ApplicationModel {
     }
 
     public void initFromJson(JSONObject networkResponse) {
-        System.out.println("Ricevo oggetto Json: " + networkResponse.toString());
+        //System.out.println("Ricevo oggetto Json: " + networkResponse.toString());
         lista_linee.clear();
         try {
             JSONArray json = networkResponse.getJSONArray("lines");
@@ -86,8 +90,8 @@ public class ApplicationModel {
         }
     }
 
-    public void initPostFromJson(JSONObject networkResponse, Context context) {
-        System.out.println("Ricevo oggetto Json: " + networkResponse.toString());
+    public void initPostFromJson(JSONObject networkResponse) {
+        //System.out.println("Ricevo oggetto Json: " + networkResponse.toString());
         lista_posts.clear();
         try {
             JSONArray json = networkResponse.getJSONArray("posts");
@@ -101,8 +105,6 @@ public class ApplicationModel {
                 if(post.delay == null){
                     post.delay = "0";
                 }
-                Utils.calculateMedia(post.datetime, Integer.parseInt(post.delay), context);
-
                 lista_posts.add(post);
             }
             //Collections.reverse(lista_posts);
@@ -110,6 +112,11 @@ public class ApplicationModel {
             e.printStackTrace();
         }
     }
+
+    public void initUid(String uidUser) {
+        uid = uidUser;
+    }
+
 
     public String checkPhoto(String x) {
         if(photo_map.containsKey(x)){

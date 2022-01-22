@@ -117,41 +117,6 @@ public class Utils {
                 .setPositiveButton("Chiudi", null).show();
     }
 
-    public static void calculateMedia(String date, int dalay, Context context) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date date1 = dateFormat.parse(date);
-            dateFormat = new SimpleDateFormat("EEEE");
-            String d = dateFormat.format(date1);
-
-            SharedPreferences sharedpreferences = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE);
-            if (!sharedpreferences.contains(d)) {
-                sharedpreferences.edit().putInt(d, dalay).apply();
-            } else {
-                int c = sharedpreferences.getInt(d, 0);
-                c = (c + dalay) / 2;
-                sharedpreferences.edit().putInt(d, c).apply();
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static String getMedia(Context context) {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-        Date d = new Date();
-        String dayOfTheWeek = sdf.format(d);
-
-        SharedPreferences sharedpreferences = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE);
-        if (!sharedpreferences.contains(dayOfTheWeek)) {
-            return "Viene calcolata mentre utilizzi la app";
-        } else {
-            int c = sharedpreferences.getInt(dayOfTheWeek, 0);
-            return c + " minuti";
-        }
-    }
-
     public static JSONObject addPost(Context context, String did, int delay, int status, String commento)  throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("sid", getSessionID(context));
@@ -162,22 +127,18 @@ public class Utils {
         return jsonObject;
     }
 
-    public static String md5(String s) {
-        try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
-
-            // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i=0; i<messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-            return hexString.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return "";
+    public static String getBacheca(Context context) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE);
+        String a = null;
+        if (sharedpreferences.contains("bacheca")) {
+            return sharedpreferences.getString("bacheca", null);
+        } else
+            return "-1";
     }
+
+    public static void saveBacheca(Context context, String nBacheca) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE);
+        sharedpreferences.edit().putString("bacheca", nBacheca).apply();
+    }
+
 }

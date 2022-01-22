@@ -35,9 +35,9 @@ public class ViewHolderPosts extends RecyclerView.ViewHolder {
     public final TextView commento;
     public final Button segui;
     public final ImageView picture;
-    //public Bitmap foto;
     private final Context context;
     private final Application application;
+    private final String uid;
 
     public ViewHolderPosts(View itemView, Context context, Application application) {
         super(itemView);
@@ -50,6 +50,7 @@ public class ViewHolderPosts extends RecyclerView.ViewHolder {
         commento = itemView.findViewById(R.id.commento);
         segui = itemView.findViewById(R.id.btn_segui);
         picture = itemView.findViewById(R.id.imageView2);
+        uid = ApplicationModel.getInstance().getUid();
     }
 
     public void setText(Post s) {
@@ -67,24 +68,49 @@ public class ViewHolderPosts extends RecyclerView.ViewHolder {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         if (s.delay == null) {
             s.delay = "0";
         }
-
-        if (s.delay.equals("0")) {
-            ritado.setTextColor(Color.GREEN);
-        } else {
-            ritado.setTextColor(Color.RED);
+        if (s.status == null) {
+            s.status = "0";
         }
-        ritado.setText("+" + s.delay);
-        nome_utente.setText(s.authorName);
-        stato.setText(s.status);
-        commento.setText(s.comment);
-        //picture.setImageBitmap(foto);
 
-        if (s.followingAuthor) {
-            segui.setBackgroundColor(Color.parseColor("#CFE1A7"));
-            segui.setText("SEGUITO");
+        if ("1".equals(s.delay)) {
+            ritado.setText("Ritardo di pochi minuti");
+            ritado.setTextColor(Color.RED);
+        } else if ("2".equals(s.delay)) {
+            ritado.setText("Ritardo oltre i 15 minuti");
+            ritado.setTextColor(Color.RED);
+        } else if ("3".equals(s.delay)) {
+            ritado.setText("Treni soppressi");
+            ritado.setTextColor(Color.RED);
+        } else {
+            ritado.setText("In orario");
+            ritado.setTextColor(Color.DKGRAY);
+        }
+
+        if ("1".equals(s.status)) {
+            stato.setText("Accettabile");
+            stato.setTextColor(Color.DKGRAY);
+        } else if ("2".equals(s.status)) {
+            stato.setText("Gravi problemi per i passeggeri");
+            stato.setTextColor(Color.RED);
+        } else {
+            stato.setText("Situazione ideale");
+            stato.setTextColor(Color.DKGRAY);
+        }
+
+        nome_utente.setText(s.authorName);
+        commento.setText(s.comment);
+
+        if (s.author.equals(uid)) {
+            segui.setVisibility(View.GONE);
+        } else {
+            if (s.followingAuthor) {
+                segui.setBackgroundColor(Color.parseColor("#CFE1A7"));
+                segui.setText("SEGUITO");
+            }
         }
     }
 
@@ -93,11 +119,11 @@ public class ViewHolderPosts extends RecyclerView.ViewHolder {
 
         if (ApplicationModel.getInstance().checkPhoto(uidPversion) != null) {
             this.picture.setImageBitmap(Utils.fromBase64ToBitmap(ApplicationModel.getInstance().checkPhoto(uidPversion)));
-        } else if(PhotoModel.getInstance(this.application).checkPhotoinDB(uidPversion)){
+        } else if (PhotoModel.getInstance(this.application).checkPhotoinDB(uidPversion)) {
             String base64 = PhotoModel.getInstance(this.application).getPhototoDB(uidPversion);
             this.picture.setImageBitmap(Utils.fromBase64ToBitmap(base64));
             ApplicationModel.getInstance().insertPhotoinMap(uidPversion, base64);
-        }else {
+        } else {
             getPictureFromUrl(uid);
         }
     }
@@ -114,9 +140,9 @@ public class ViewHolderPosts extends RecyclerView.ViewHolder {
                             picture.setImageBitmap(Utils.fromBase64ToBitmap(response.getString("picture")));
 
                             String key = response.getString("uid") + response.getString("pversion");
-                            String value =  response.getString("picture");
+                            String value = response.getString("picture");
                             ApplicationModel.getInstance().insertPhotoinMap(key, value);
-                            PhotoModel.getInstance(this.application).insertPhotoinDB(key,value);
+                            PhotoModel.getInstance(this.application).insertPhotoinDB(key, value);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

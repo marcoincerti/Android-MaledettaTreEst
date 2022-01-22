@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/activity_bacheca_posts.xml" value="0.13072916666666667" />
+        <entry key="app/src/main/res/layout/activity_inserisici.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17889492753623187" />
         <entry key="app/src/main/res/layout/fragment_bacheca.xml" value="0.17889492753623187" />
+        <entry key="app/src/main/res/layout/single_row_posts.xml" value="0.25" />
         <entry key="app/src/main/res/layout/single_row_tratte.xml" value="0.21240942028985507" />
       </map>
     </option>

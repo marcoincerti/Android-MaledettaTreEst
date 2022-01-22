@@ -53,6 +53,12 @@ public class BachecaPosts extends AppCompatActivity {
             did_inverso = extras.getString("did_inverso");
         }
 
+        if(did.equals("1") || did.equals("2")){
+            Utils.saveBacheca(this, "1");
+        }else{
+            Utils.saveBacheca(this, "2");
+        }
+
         updateUI();
 
         try {
@@ -99,13 +105,23 @@ public class BachecaPosts extends AppCompatActivity {
         adapter = new Adapter_posts(this, this, getApplication());
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        try {
+            getPosts();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void getPosts() throws JSONException {
         String url = "https://ewserver.di.unimi.it/mobicomp/treest/getPosts.php";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST, url, Utils.getStationJsonRequest(this, did),
                 response -> {
                     try {
-                        ApplicationModel.getInstance().initPostFromJson(response, getApplicationContext());
+                        ApplicationModel.getInstance().initPostFromJson(response);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -129,4 +145,5 @@ public class BachecaPosts extends AppCompatActivity {
         finish();
         return true;
     }
+
 }

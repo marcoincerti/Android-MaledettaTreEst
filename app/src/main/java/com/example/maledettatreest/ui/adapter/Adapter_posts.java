@@ -49,16 +49,15 @@ public class Adapter_posts extends RecyclerView.Adapter<ViewHolderPosts>{
         holder.setText(s);
 
         holder.segui.setOnClickListener(v -> {
-
             if (s.followingAuthor){
                 try {
-                    unfollowPerson(s.author,holder.segui);
+                    unfollowPerson(s,holder.segui);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }else {
                 try {
-                    followPerson(s.author,holder.segui);
+                    followPerson(s,holder.segui);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -72,11 +71,12 @@ public class Adapter_posts extends RecyclerView.Adapter<ViewHolderPosts>{
         return ApplicationModel.getInstance().getSizePost();
     }
 
-    private void followPerson(String uid, Button btn) throws JSONException {
+    private void followPerson(Post p, Button btn) throws JSONException {
         String url = "https://ewserver.di.unimi.it/mobicomp/treest/follow.php";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST, url, Utils.getPictureJsonRequest(context, uid),
+                Request.Method.POST, url, Utils.getPictureJsonRequest(context, p.author),
                 response -> {
+                    p.followingAuthor = true;
                     btn.setBackgroundColor(Color.parseColor("#CFE1A7"));
                     btn.setText("SEGUITO");
                     Utils.addFollowers(context);
@@ -88,11 +88,12 @@ public class Adapter_posts extends RecyclerView.Adapter<ViewHolderPosts>{
         VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void unfollowPerson(String uid, Button btn) throws JSONException {
+    private void unfollowPerson(Post p, Button btn) throws JSONException {
         String url = "https://ewserver.di.unimi.it/mobicomp/treest/unfollow.php";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST, url, Utils.getPictureJsonRequest(context, uid),
+                Request.Method.POST, url, Utils.getPictureJsonRequest(context, p.author),
                 response -> {
+                    p.followingAuthor = false;
                     btn.setBackgroundColor(Color.parseColor("#FFB6C1"));
                     btn.setText("SEGUI");
                     Utils.deleteFollowers(context);

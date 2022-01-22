@@ -91,29 +91,29 @@
                         android:id="@+id/radio_button_1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="0 minuti"
-                        android:onClick="onRadioButtonClickedRitardo"/>
+                        android:onClick="onRadioButtonClickedRitardo"
+                        android:text="In orario" />
 
                     <RadioButton
                         android:id="@+id/radio_button_2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="1 minuti"
-                        android:onClick="onRadioButtonClickedRitardo"/>
+                        android:onClick="onRadioButtonClickedRitardo"
+                        android:text="Di pochi minuti" />
 
                     <RadioButton
                         android:id="@+id/radio_button_3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="2 minuti"
-                        android:onClick="onRadioButtonClickedRitardo"/>
+                        android:onClick="onRadioButtonClickedRitardo"
+                        android:text="Oltre 15 minuti" />
 
                     <RadioButton
                         android:id="@+id/radio_button_4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="3 minuti"
-                        android:onClick="onRadioButtonClickedRitardo"/>
+                        android:onClick="onRadioButtonClickedRitardo"
+                        android:text="Treno soppressi" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -143,29 +143,29 @@
                     android:id="@+id/radio_button_status_0"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="start"
                     android:checked="true"
                     android:layoutDirection="rtl"
-                    android:text="0"
-                    android:textAlignment="textStart" />
+                    android:text="Situazione ideale"
+                    android:onClick="onRadioButtonClickedStatus"
+                    android:textAlignment="textEnd" />
 
                 <RadioButton
                     android:id="@+id/radio_button_status_1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="start"
                     android:layoutDirection="rtl"
-                    android:text="1"
-                    android:textAlignment="textStart" />
+                    android:text="Accettabile"
+                    android:onClick="onRadioButtonClickedStatus"
+                    android:textAlignment="textEnd" />
 
                 <RadioButton
                     android:id="@+id/radio_button_status_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="start"
+                    android:onClick="onRadioButtonClickedStatus"
                     android:layoutDirection="rtl"
-                    android:text="2"
-                    android:textAlignment="textStart" />
+                    android:text="Gravi problemi per i passeggeri"
+                    android:textAlignment="textEnd" />
             </LinearLayout>
 
         </LinearLayout>

@@ -16,9 +16,11 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.maledettatreest.databinding.FragmentBachecaBinding;
 import com.example.maledettatreest.models.ApplicationModel;
+import com.example.maledettatreest.models.User;
 import com.example.maledettatreest.network.VolleySingleton;
 import com.example.maledettatreest.ui.adapter.Adapter_lines;
 import com.example.maledettatreest.utils.Utils;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 
@@ -26,7 +28,7 @@ public class Bacheca extends Fragment {
 
     FragmentBachecaBinding binding;
     private Adapter_lines adapter;
-    String media;
+    private User user;
 
     public Bacheca() {
         // Required empty public constructor
@@ -50,7 +52,7 @@ public class Bacheca extends Fragment {
 
         try {
             getLines();
-            media = Utils.getMedia(this.getContext());
+            getProfile();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -60,7 +62,7 @@ public class Bacheca extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        binding.txtRitardo.setText(media);
+
         //definiamo il layout manager
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
@@ -70,7 +72,6 @@ public class Bacheca extends Fragment {
 
     private void getLines() throws JSONException {
         String url = "https://ewserver.di.unimi.it/mobicomp/treest/getLines.php";
-
         //Creo la mia richiesta passando un oggetto json
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST, url, Utils.getSessionIDJsonRequest(this.getContext()),
@@ -78,7 +79,6 @@ public class Bacheca extends Fragment {
                     try {
                         //Salvo il mio risultato nel singleton, più facile da usare ma occupa molta
                         ApplicationModel.getInstance().initFromJson(response);
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -89,7 +89,23 @@ public class Bacheca extends Fragment {
             Log.e("spash activity", "Errore volley");
         });
 
-        //Metto la mia richiesta nella cosa di Volley
+        //Metto la mia richiesta nella coda di Volley
+        VolleySingleton.getInstance(this.getContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void getProfile() throws JSONException {
+        String url = "https://ewserver.di.unimi.it/mobicomp/treest/getProfile.php";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST, url, Utils.getSessionIDJsonRequest(this.getContext()),
+                response -> {
+                    Gson gson = new Gson();
+                    user = gson.fromJson(response.toString(), User.class);
+                    ApplicationModel.getInstance().initUid(user.uid);
+                }, error -> {
+            Utils.showErrorNetwork(this.getContext());
+            Log.e("spash activity", "Errore volley");
+        });
+
         VolleySingleton.getInstance(this.getContext()).addToRequestQueue(jsonObjectRequest);
     }
 }

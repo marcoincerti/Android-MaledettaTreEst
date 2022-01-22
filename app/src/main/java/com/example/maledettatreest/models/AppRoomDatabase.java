@@ -15,9 +15,6 @@ public abstract class AppRoomDatabase extends RoomDatabase {
     public abstract PhotoDao photoDao();
 
     private static volatile AppRoomDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     static AppRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
