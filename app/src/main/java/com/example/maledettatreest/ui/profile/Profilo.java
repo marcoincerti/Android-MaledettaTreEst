@@ -245,7 +245,7 @@ public class Profilo extends Fragment {
         binding.textUid.setText(user.uid);
         binding.txtNPersone.setText(Utils.getFollowers(this.getContext()));
         if (this.user.picture != null)
-            binding.imageView.setImageBitmap(Utils.fromBase64ToBitmap(this.user.picture));
+            binding.imageView.setImageBitmap(Utils.fromBase64ToBitmap(this.user.picture, this.getContext()));
     }
 
     private void btn_Enable(boolean active) {

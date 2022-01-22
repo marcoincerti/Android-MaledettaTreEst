@@ -1,5 +1,6 @@
 package com.example.maledettatreest.ui.bacheca;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ public class Bacheca extends Fragment {
     FragmentBachecaBinding binding;
     private Adapter_lines adapter;
     private User user;
+    private int prima = 0;
 
     public Bacheca() {
         // Required empty public constructor
@@ -53,6 +55,16 @@ public class Bacheca extends Fragment {
         try {
             getLines();
             getProfile();
+            if (!Utils.getBacheca(this.getContext()).equals("-1") && prima == 0) {
+                    Intent intent = new Intent(this.getContext(), BachecaPosts.class);
+
+                    intent.putExtra("key", Utils.getBacheca(this.getContext()));
+                    intent.putExtra("partenza", Utils.getBachecaSname(this.getContext()));
+                    intent.putExtra("arrivo", Utils.getBachecaSname_2(this.getContext()));
+                    intent.putExtra("did_inverso", Utils.getBachecaDid_2(this.getContext()));
+                    this.getContext().startActivity(intent);
+                prima += 1;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

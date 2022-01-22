@@ -118,10 +118,10 @@ public class ViewHolderPosts extends RecyclerView.ViewHolder {
         String uidPversion = uid + pversion;
 
         if (ApplicationModel.getInstance().checkPhoto(uidPversion) != null) {
-            this.picture.setImageBitmap(Utils.fromBase64ToBitmap(ApplicationModel.getInstance().checkPhoto(uidPversion)));
+            this.picture.setImageBitmap(Utils.fromBase64ToBitmap(ApplicationModel.getInstance().checkPhoto(uidPversion), this.context));
         } else if (PhotoModel.getInstance(this.application).checkPhotoinDB(uidPversion)) {
             String base64 = PhotoModel.getInstance(this.application).getPhototoDB(uidPversion);
-            this.picture.setImageBitmap(Utils.fromBase64ToBitmap(base64));
+            this.picture.setImageBitmap(Utils.fromBase64ToBitmap(base64, this.context));
             ApplicationModel.getInstance().insertPhotoinMap(uidPversion, base64);
         } else {
             getPictureFromUrl(uid);
@@ -137,7 +137,7 @@ public class ViewHolderPosts extends RecyclerView.ViewHolder {
                         if ((response.getString("picture").equals("null"))) {
                             picture.setImageDrawable(context.getResources().getDrawable(R.drawable.placeholder));
                         } else {
-                            picture.setImageBitmap(Utils.fromBase64ToBitmap(response.getString("picture")));
+                            picture.setImageBitmap(Utils.fromBase64ToBitmap(response.getString("picture"), this.context));
 
                             String key = response.getString("uid") + response.getString("pversion");
                             String value = response.getString("picture");

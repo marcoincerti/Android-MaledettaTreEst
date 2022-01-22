@@ -23,10 +23,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import android.location.Location;
 
 import androidx.annotation.NonNull;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,7 +60,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             did = extras.getString("key");
             //The key argument here must match that used in the other activity
         }
-        Utils.saveBacheca(this, "-1");
+        Utils.saveBacheca(this, "-1","","","");
     }
 
     @Override
@@ -123,7 +121,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             if (mMap != null) {
-                mMap.setMyLocationEnabled(true);
+                this.mMap.setMyLocationEnabled(true);
             }
         } else {
             // Permission to access the location is missing. Show rationale and request permission

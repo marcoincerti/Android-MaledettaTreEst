@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.view.contentcapture.ContentCaptureCondition;
 
 import com.example.maledettatreest.R;
 import com.example.maledettatreest.models.User;
@@ -105,9 +106,13 @@ public class Utils {
 
     }
 
-    public static Bitmap fromBase64ToBitmap(String base64) {
-        byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    public static Bitmap fromBase64ToBitmap(String base64, Context context) {
+        try{
+            byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        }catch (Exception e){
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.placeholder);
+        }
     }
 
     public static void showErrorNetwork(Context context) {
@@ -129,16 +134,41 @@ public class Utils {
 
     public static String getBacheca(Context context) {
         SharedPreferences sharedpreferences = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE);
-        String a = null;
         if (sharedpreferences.contains("bacheca")) {
             return sharedpreferences.getString("bacheca", null);
         } else
             return "-1";
     }
 
-    public static void saveBacheca(Context context, String nBacheca) {
+    public static String getBachecaSname(Context context) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE);
+        if (sharedpreferences.contains("bacheca_sname")) {
+            return sharedpreferences.getString("bacheca_sname", null);
+        } else
+            return "-1";
+    }
+    public static String getBachecaDid_2(Context context) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE);
+        if (sharedpreferences.contains("bacheca_did_2")) {
+            return sharedpreferences.getString("bacheca_did_2", null);
+        } else
+            return "-1";
+    }
+    public static String getBachecaSname_2(Context context) {
+        SharedPreferences sharedpreferences = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE);
+        if (sharedpreferences.contains("bacheca_sname_2")) {
+            return sharedpreferences.getString("bacheca_sname_2", null);
+        } else
+            return "-1";
+    }
+
+    public static void saveBacheca(Context context, String nBacheca, String sname, String did_2
+            , String sname_2) {
         SharedPreferences sharedpreferences = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE);
         sharedpreferences.edit().putString("bacheca", nBacheca).apply();
+        sharedpreferences.edit().putString("bacheca_sname", sname).apply();
+        sharedpreferences.edit().putString("bacheca_did_2", did_2).apply();
+        sharedpreferences.edit().putString("bacheca_sname_2", sname_2).apply();
     }
 
 }

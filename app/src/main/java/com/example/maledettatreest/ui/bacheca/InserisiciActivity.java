@@ -172,4 +172,10 @@ public class InserisiciActivity extends AppCompatActivity {
                 status = 2;
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }

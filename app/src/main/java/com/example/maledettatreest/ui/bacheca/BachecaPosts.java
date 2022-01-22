@@ -53,11 +53,7 @@ public class BachecaPosts extends AppCompatActivity {
             did_inverso = extras.getString("did_inverso");
         }
 
-        if(did.equals("1") || did.equals("2")){
-            Utils.saveBacheca(this, "1");
-        }else{
-            Utils.saveBacheca(this, "2");
-        }
+        Utils.saveBacheca(this, this.did,this.partenza, this.did_inverso, this.arrivo);
 
         updateUI();
 
